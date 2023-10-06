@@ -1,0 +1,177 @@
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      CF03(03)
+     A          R REG01
+     A                                  2  1SYSNAME
+     A                                  2 20'KKKKKKKKK de datos de auditoría de -
+     A                                      seguridad '
+     A                                  2 72DATE(*JOB *Y)
+     A                                      EDTCDE(Y)
+     A                                  3  1'DSPCHGSRC'
+     A                                  3 72TIME
+     A                                 11 28'Tipo Consulta.:'
+     A            TIPSEG         1   B 11 44
+     A  30                                  ERRMSG('El tipo de consulta tiene q-
+     A                                      ue ser F o S' 30)
+     A                                 11 55'F=Fuentes de Programas'
+     A                                      DSPATR(HI)
+     A                                 12 55'S=Accesos a BBDD'
+     A                                      DSPATR(HI)
+     A                                 13 28'Fecha Desde...:'
+     A            FECDES         8Y 0B 13 44
+     A  40                                  ERRMSG('Fecha Desde en Errónea' 40)
+     A                                      EDTWRD('  /  /    ')
+     A                                      EDTMSK('  &  &    ')
+     A                                 15 28'Fecha Hasta...:'
+     A            FECHAS         8Y 0B 15 44
+     A  50                                  ERRMSG('Fecha Hasta es Errónea' 50)
+     A  60                                  ERRMSG('Fecha Hasta no puede ser me-
+     A                                      nor que Fecha Desde' 60)
+     A                                      EDTWRD('  /  /    ')
+     A                                      EDTMSK('  &  &    ')
+     A                                 23  4'F3=Salir'
+     A                                      DSPATR(HI)
+     A          R REG02SF                   SFL
+     A            R02JOMBR      10A  O  8  5
+     A            R02JOOBJ      10A  O  8 16
+     A            R02JOLIB      10   O  8 27
+     A            R02JOUSER     10A  O  8 38
+     A            R02JODATE      8Y 0O  8 59EDTWRD('  /  /    ')
+     A            R02JOTIME      6Y 0O  8 70EDTWRD('  :  :  ')
+     A            R02TIPMOD      9   O  8 49
+     A          R REG02CF                   SFLCTL(REG02SF)
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0013)
+     A                                      CF12(12 'Pantalla Anterior')
+     A                                      OVERLAY
+     A  30                                  SFLDSP
+     A                                      SFLDSPCTL
+     A N30                                  SFLCLR
+     A  30                                  SFLEND(*MORE)
+     A  63                                  SFLMSG('El rango de fechas solicita-
+     A                                      do es demasiado amplio, debe acorta-
+     A                                      rlo' 63)
+     A                                  1  2SYSNAME
+     A                                  1 23'Visualizar Modificaciones en fuent-
+     A                                      es'
+     A                                  1 72DATE
+     A                                      EDTCDE(Y)
+     A                                  2  2'DSPCHGSRCR'
+     A                                  2 72TIME
+     A                                  3  4'Fecha Desde..:'
+     A                                      DSPATR(HI)
+     A            FECDES         8Y 0O  3 19EDTWRD('  /  /    ')
+     A                                  3 32'Filtrar Por.:'
+     A                                      DSPATR(HI)
+     A            TIPFIL         1Y 0B  3 46
+     A  61                                  ERRMSG('El campo filtro tiene que s-
+     A                                      er 1, 2, 3 o 4' 61)
+     A                                      EDTCDE(Z)
+     A            CAMFIL        10A  B  3 48
+     A  62                                  ERRMSG('Tecle algo para filtrar' 62)
+     A                                  4  4'Fecha Hasta...'
+     A                                      DSPATR(HI)
+     A            FECHAS         8Y 0O  4 19EDTWRD('  /  /    ')
+     A                                  4 46'1=Fuente'
+     A                                      DSPATR(HI)
+     A                                  4 57'2=Fichero Fuente'
+     A                                      DSPATR(HI)
+     A                                  5 46'3=Usuario'
+     A                                      DSPATR(HI)
+     A                                  5 57'4=Biblioteca'
+     A                                      DSPATR(HI)
+     A                                  7  5'PGM.Fuente'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  7 16'Fichero F.'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  7 27'Biblioteca'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  7 38'Usuario M.'
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A                                  7 59'Fecha y hora modif.'
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A                                  7 49'Tipo Mod.'
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A          R REG
+     A                                      OVERLAY
+     A                                 23  3'F3=Salir'
+     A                                      DSPATR(HI)
+     A                                 23 23'F12=Pantalla Anterior'
+     A                                      DSPATR(HI)
+     A          R REGM
+     A                                      OVERLAY
+     A                                 13 25'No hay datos para esta selección'
+     A                                      DSPATR(HI)
+     A          R REG03SF                   SFL
+     A            R03NOMOBJ     10   O  8  2
+     A            R03NOMLIB     10   O  8 14
+     A            R03NOMJOB     10   O  8 26
+     A            R03NOMUSU     10   O  8 38
+     A            R03TIPMOD      9   O  8 50
+     A            R03FECCAM      8Y 0O  8 61EDTWRD('  /  /    ')
+     A            R03HORCAM      6Y 0O  8 72EDTWRD('  :  :  ')
+     A          R REG03CF                   SFLCTL(REG03SF)
+     A                                      SFLDSPCTL
+     A  30                                  SFLDSP
+     A                                      SFLPAG(13)
+     A                                      SFLSIZ(15)
+     A                                      OVERLAY
+     A                                      CF12(12 'Pantalla Anterior')
+     A N30                                  SFLCLR
+     A  30                                  SFLEND(*MORE)
+     A  63                                  SFLMSG('El rango de fechas solicita-
+     A                                      do es demasiado amplio, debe acorta-
+     A                                      rlo' 63)
+     A                                  1  2SYSNAME
+     A                                  1 25'Visualizar modificaciones en BBDD'
+     A                                  1 72DATE
+     A                                      EDTCDE(Y)
+     A                                  2  2'DSPCHGSRCR'
+     A                                  2 72TIME
+     A                                  3  4'Fecha Desde..:'
+     A                                      DSPATR(HI)
+     A            FECDES         8Y 0   3 19EDTWRD('  /  /    ')
+     A                                  3 32'Filtrar Por.:'
+     A                                      DSPATR(HI)
+     A            TIPFIL         1Y 0B  3 46
+     A  61                                  ERRMSG('El campo filtro tiene que s-
+     A                                      er 1, 2, 3 o 4' 61)
+     A                                      EDTCDE(Z)
+     A            CAMFIL        10A  B  3 48
+     A  62                                  ERRMSG('Tecle algo para filtrar' 62)
+     A                                  4  4'Fecha Hasta..:'
+     A                                      DSPATR(HI)
+     A            FECHAS         8Y 0   4 19EDTWRD('  /  /    ')
+     A                                  4 46'1=Trabajo'
+     A                                      DSPATR(HI)
+     A                                  4 57'2=Fichero de BBDD'
+     A                                      DSPATR(HI)
+     A                                  5 46'3=Usuario'
+     A                                      DSPATR(HI)
+     A                                  5 57'4=Biblioteca'
+     A                                      DSPATR(HI)
+     A                                  7  2' Modificado'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  7 14'Biblioteca'
+     A                                      DSPATR(HI)
+     A                                      DSPATR(UL)
+     A                                  7 26' Trabajo  '
+     A                                      DSPATR(HI UL)
+     A                                  7 38'  USUARIO '
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A                                  7 61'Fecha y hora Modif. '
+     A                                      DSPATR(UL)
+     A                                      DSPATR(HI)
+     A                                  7 50'Tipo Mod.'
+     A                                      DSPATR(HI UL)
+     A                                  6 27'Nombre de'
+     A                                      DSPATR(HI)
+     A                                  6  3' Fichero'
+     A                                      DSPATR(HI)
